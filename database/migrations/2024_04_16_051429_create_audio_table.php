@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('audio', function (Blueprint $table) {
             $table->id();
-            $table->string('origin_name');
-            $table->string('path');
+            $table->string('origin_name')->nullable();
+            $table->string('path')->nullable();
             $table->string('audio_voice')->nullable();
             $table->string('audio_noise')->nullable();
+            $table->text('youtube_link')->nullable();
             $table->jsonb('text')->nullable();
-            $table->unsignedBigInteger('users_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedSmallInteger('status')->default(0);
             $table->timestamps();
-            $table->index('users_id');
-            $table->foreign('users_id')->references('id')->on('users');
+            $table->index('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
