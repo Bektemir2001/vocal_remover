@@ -32,17 +32,30 @@ class HandleAudioJob implements ShouldQueue
         $file_path = public_path('storage/'.$audio->path);
 
         $client = new Client();
-        $response = $client->request('POST', env('VOCAL_REMOVER_API'), [
-            'multipart' => [
-                [
-                    'name'     => 'audio_file',
-                    'contents' => fopen($file_path, 'r'),
-                    'filename' => $audio->origin_name
-                ]
-            ],
-            'stream' => true,
-            'timeout' => 300
-        ]);
+        if($audio->path)
+        {
+            $response = $client->request('POST', env('VOCAL_REMOVER_API'), [
+                'multipart' => [
+                    [
+                        'name'     => 'audio_file',
+                        'contents' => fopen($file_path, 'r'),
+                        'filename' => $audio->origin_name
+                    ]
+                ],
+                'stream' => true,
+                'timeout' => 300
+            ]);
+        }
+        else{
+            $response = $client->request('POST', env('VOCAL_REMOVER_API'), [
+                'form_params' => [
+                    'youtube' => $audio->youtube_link
+                ],
+                'stream' => true,
+                'timeout' => 300
+            ]);
+        }
+
 
         if ($response->getStatusCode() == 200) {
             $stream = $response->getBody(); // Получаем поток ответа

@@ -30,6 +30,7 @@ class AudioService
                     'user_id' => $user,
                     'youtube_link' => $data['youtube_link']
                 ]);
+                HandleAudioJob::dispatch($audio);
             }
 
 
