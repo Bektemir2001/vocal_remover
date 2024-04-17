@@ -118,7 +118,7 @@
                                                     <div class="list-item d-flex justify-content-start align-items-start">
                                                         <div class="avatar">
                                                             <div class="avatar-img avatar-success avatar-20">
-                                                                <span><img class="avatar is-squared rounded-circle" src="../assets/images/user/2.jpg" alt="2.jpg"></span>
+                                                                <span><img class="avatar is-squared rounded-circle" src="{{asset('assets/images/user/2.jpg')}}" alt="2.jpg"></span>
                                                             </div>
                                                         </div>
                                                         <div class="list-style-detail ml-2 mr-2">
@@ -215,18 +215,18 @@
                             </li>
                             <li class="nav-item nav-icon dropdown">
                                 <a href="#" class="search-toggle dropdown-toggle" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="../assets/images/Flag/flag001.png" class="img-fluid rounded-circle" alt="user" style="height: 30px; min-width: 30px; width: 30px;">
+                                    <img src="{{asset('assets/images/Flag/flag001.png')}}" class="img-fluid rounded-circle" alt="user" style="height: 30px; min-width: 30px; width: 30px;">
                                     <span class="bg-primary"></span>
                                 </a>
                                 <div class="iq-sub-dropdown dropdown-menu" aria-labelledby="dropdownMenuButton2">
                                     <div class="card shadow-none m-0 border-0">
                                         <div class=" p-0 ">
                                             <ul class="dropdown-menu-1 list-group list-group-flush">
-                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-03.png" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>Spanish</a></li>
-                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-04.png" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>Italian</a></li>
-                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-02.png" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>French</a></li>
-                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-05.png" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>German</a></li>
-                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="../assets/images/Flag/flag-06.png" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>Japanese</a></li>
+                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="{{asset('assets/images/Flag/flag-03.png')}}" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>Spanish</a></li>
+                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="{{asset('assets/images/Flag/flag-04.png')}}" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>Italian</a></li>
+                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="{{asset('assets/images/Flag/flag-02.png')}}" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>French</a></li>
+                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="{{asset('assets/images/Flag/flag-05.png')}}" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>German</a></li>
+                                                <li class="dropdown-item-1 list-group-item  px-2"><a class="p-0" href="#"><img src="{{asset('assets/images/Flag/flag-06.png')}}" alt="img-flaf" class="img-fluid mr-2" style="width: 15px;height: 15px;min-width: 15px;"/>Japanese</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -253,7 +253,7 @@
                             </li>
                             <li class="nav-item nav-icon dropdown">
                                 <a href="#" class="nav-item nav-icon dropdown-toggle pr-0 search-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                                    <img src="../assets/images/user/1.jpg" class="img-fluid avatar-rounded" alt="user">
+                                    <img src="{{asset('assets/images/user/1.jpg')}}" class="img-fluid avatar-rounded" alt="user">
                                     <span class="mb-0 ml-2 user-name">John Doe</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">

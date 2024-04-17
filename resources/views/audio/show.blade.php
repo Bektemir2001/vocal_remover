@@ -25,9 +25,7 @@
                         <div class="card">
                             <div class="card-header d-flex justify-content-between">
                             </div>
-                            <div class="card-body" id="textCardBody">
-
-                                <h5 class="text-center">Text</h5>
+                            <div class="card-body" style="height: 200px; overflow-y: auto;" id="messageDisplay">
                             </div>
                         </div>
                     </div>
@@ -75,6 +73,8 @@
 
     <script>
         let text = [];
+        let currentTextIndex = 0;
+
         let audio_id = "{{$audio->id}}";
         let playBtn1 = document.getElementById("playBtn1");
         let stopBtn1 = document.getElementById("stopBtn1");
@@ -87,12 +87,14 @@
         let playBtnAll = document.getElementById("playBtnAll");
         let stopBtnAll = document.getElementById("stopBtnAll");
 
+        let messageDisplay = document.getElementById("messageDisplay"); // Ensure you have a div or span with this id in your HTML
 
         let wavesurfer1 = WaveSurfer.create({
             container: '#waveform',
             waveColor: '#3de4cc',
             progressColor: '#2aadf4',
             barWidth: 3,
+            height: 64,
             responsive: true,
             hideScrollbar: true,
             barRadius: 3
@@ -104,48 +106,39 @@
             waveColor: '#2aadf4',
             progressColor: '#4cbcec',
             barWidth: 3,
+            height: 64,
             responsive: true,
             hideScrollbar: true,
             barRadius: 3
         });
         wavesurfer2.load("{{asset('storage/'.$audio->audio_voice)}}");
 
-        playBtn1.onclick = function(){
+        playBtn1.onclick = function() {
             wavesurfer1.playPause();
-            if(playBtn1.src.match("play")){
-                playBtn1.src  = "{{asset('assets/pause.png')}}";
-            }
-            else{
-                playBtn1.src = "{{asset('assets/play-buttton.png')}}"
-            }
+            toggleButtonIcon(playBtn1, "playBtn1");
         }
 
-        stopBtn1.onclick = function(){
+        stopBtn1.onclick = function() {
             wavesurfer1.stop();
             playBtn1.src = "{{asset('assets/play-buttton.png')}}"
         }
 
-        volumeRange1.oninput = function(){
+        volumeRange1.oninput = function() {
             let volume = parseInt(this.value) / 15;
             wavesurfer1.setVolume(volume);
         }
 
-        playBtn2.onclick = function(){
+        playBtn2.onclick = function() {
             wavesurfer2.playPause();
-            if(playBtn2.src.match("play")){
-                playBtn2.src  = "{{asset('assets/pause.png')}}";
-            }
-            else{
-                playBtn2.src = "{{asset('assets/play-buttton.png')}}"
-            }
+            toggleButtonIcon(playBtn2, "playBtn2");
         }
 
-        stopBtn2.onclick = function(){
+        stopBtn2.onclick = function() {
             wavesurfer2.stop();
             playBtn2.src = "{{asset('assets/play-buttton.png')}}"
         }
 
-        volumeRange2.oninput = function(){
+        volumeRange2.oninput = function() {
             let volume = parseInt(this.value) / 15;
             wavesurfer2.setVolume(volume);
         }
@@ -153,15 +146,9 @@
         playBtnAll.onclick = function() {
             wavesurfer1.playPause();
             wavesurfer2.playPause();
-            if (playBtnAll.src.match("play")) {
-                playBtnAll.src = "{{asset('assets/pause.png')}}";
-                playBtn1.src = "{{asset('assets/pause.png')}}";
-                playBtn2.src = "{{asset('assets/pause.png')}}";
-            } else {
-                playBtnAll.src = "{{asset('assets/play-buttton.png')}}";
-                playBtn1.src = "{{asset('assets/play-buttton.png')}}";
-                playBtn2.src = "{{asset('assets/play-buttton.png')}}";
-            }
+            toggleButtonIcon(playBtnAll, "playBtnAll");
+            toggleButtonIcon(playBtn1, "playBtn1");
+            toggleButtonIcon(playBtn2, "playBtn2");
         }
 
         stopBtnAll.onclick = function() {
@@ -171,15 +158,41 @@
             playBtn1.src = "{{asset('assets/play-buttton.png')}}";
             playBtn2.src = "{{asset('assets/play-buttton.png')}}";
         }
+        function toggleButtonIcon(button, buttonId) {
+            if (button.src.match("play")) {
+                button.src = "{{asset('assets/pause.png')}}";
+            } else {
+                button.src = "{{asset('assets/play-buttton.png')}}"
+            }
+        }
+
+        wavesurfer1.on('audioprocess', function () {
+            if (wavesurfer1.isPlaying() && currentTextIndex < text.length) {
+                let currentTime = wavesurfer1.getCurrentTime();
+                let totalDuration = wavesurfer1.getDuration();
+                let segmentDuration = totalDuration / text.length;
+
+                let newIndex = Math.floor(currentTime / segmentDuration);
+                if (newIndex !== currentTextIndex) {
+                    currentTextIndex = newIndex;
+                    let chunkText = document.createElement('h6')
+                    chunkText.className = "text-center"
+                    chunkText.innerText = text[currentTextIndex].text
+                    messageDisplay.appendChild(chunkText);
+                }
+            }
+        });
 
 
-
-        {{--fetch(`/audios/get/text/${audio_id}`, {--}}
-        {{--    headers:{--}}
-        {{--        'X-CSRF-TOKEN': "{{csrf_token()}}"--}}
-        {{--    }--}}
-        {{--})--}}
-        {{--    .then(response => response.json())--}}
-        {{--    .then()--}}
+        fetch(`/audios/getText/${audio_id}`, {
+            headers: {
+                'X-CSRF-TOKEN': "{{csrf_token()}}"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                text = data.texts;
+                console.log(text);
+            });
     </script>
 @endsection

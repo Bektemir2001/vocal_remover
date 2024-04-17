@@ -13,6 +13,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [AudioController::class, 'index'])->name('audios.index');
         Route::get('/create', [AudioController::class, 'create'])->name('audios.create');
         Route::get('/show/{audio}', [AudioController::class, 'show'])->name('audios.show');
+        Route::get('/getText/{audio}', [AudioController::class, 'getText'])->name('audios.getText');
         Route::post('/', [AudioController::class, 'store'])->name('audios.store');
     });
 });

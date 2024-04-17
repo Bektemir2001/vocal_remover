@@ -7,6 +7,7 @@ use App\Models\Audio;
 use App\Services\AudioService;
 
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class AudioController extends Controller
@@ -39,5 +40,15 @@ class AudioController extends Controller
     public function show(Audio $audio): View
     {
         return view('audio.show', compact('audio'));
+    }
+
+    public function getText(Audio $audio): Response
+    {
+        $texts = [];
+        if($audio->text)
+        {
+            $texts = json_decode($audio->text);
+        }
+        return response(['texts' => $texts]);
     }
 }
