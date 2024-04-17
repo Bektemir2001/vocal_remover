@@ -43,16 +43,16 @@ class HandleAudioJob implements ShouldQueue
                     ]
                 ],
                 'stream' => true,
-                'timeout' => 300
+                'timeout' => 500
             ]);
         }
         else{
-            $response = $client->request('POST', env('VOCAL_REMOVER_API'), [
+            $response = $client->request('POST', env('VOCAL_REMOVER_YOUTUBE_API'), [
                 'form_params' => [
                     'youtube' => $audio->youtube_link
                 ],
                 'stream' => true,
-                'timeout' => 300
+                'timeout' => 500
             ]);
         }
 
