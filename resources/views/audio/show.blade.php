@@ -72,6 +72,7 @@
 
 
     <script>
+        let is_Start = false;
         let text = [];
         let currentTextIndex = 0;
 
@@ -173,8 +174,10 @@
                 let segmentDuration = totalDuration / text.length;
 
                 let newIndex = Math.floor(currentTime / segmentDuration);
-                if (newIndex !== currentTextIndex) {
+                console.log(newIndex)
+                if (newIndex !== currentTextIndex || !is_Start) {
                     currentTextIndex = newIndex;
+                    is_Start = true
                     let chunkText = document.createElement('h6')
                     chunkText.className = "text-center"
                     chunkText.innerText = text[currentTextIndex].text

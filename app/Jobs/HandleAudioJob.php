@@ -37,7 +37,7 @@ class HandleAudioJob implements ShouldQueue
             $response = $client->request('POST', env('VOCAL_REMOVER_API'), [
                 'multipart' => [
                     [
-                        'name'     => 'audio_file',
+                        'name'     => 'file',
                         'contents' => fopen($file_path, 'r'),
                         'filename' => $audio->origin_name
                     ]
@@ -58,24 +58,12 @@ class HandleAudioJob implements ShouldQueue
 
 
         if ($response->getStatusCode() == 200) {
-            $stream = $response->getBody(); // Получаем поток ответа
-            $zipContent = $stream->getContents(); // Читаем содержимое потока
+            $instrumentsPath = '/home/bektemir/Desktop/my_projects/ulutsoft/vocal-remover/downloaded_audio_Instruments.wav';
+            $vocalsPath = '/home/bektemir/Desktop/my_projects/ulutsoft/vocal-remover/downloaded_audio_Vocals.wav';
 
-            $zip = new ZipArchive;
-            $tmpFile = tmpfile();
-            fwrite($tmpFile, $zipContent);
-            fseek($tmpFile, 0);
-
-            if ($zip->open(stream_get_meta_data($tmpFile)['uri']) === TRUE) {
-                $zip->extractTo(storage_path('app/separated_files')); // Извлечение файлов
-                $zip->close(); // Закрываем архив
-                fclose($tmpFile); // Закрываем и удаляем временный файл
-                $instrumentsPath = storage_path('app/separated_files/instruments.wav');
-                $vocalsPath = storage_path('app/separated_files/vocals.wav');
-
-                $instrumentsSavedPath = Storage::disk('public')->putFile('audios', new \Illuminate\Http\File($instrumentsPath));
-                $vocalsSavedPath = Storage::disk('public')->putFile('audios', new \Illuminate\Http\File($vocalsPath));
-                $audio->update([
+            $instrumentsSavedPath = Storage::disk('public')->putFile('audios', new \Illuminate\Http\File($instrumentsPath));
+            $vocalsSavedPath = Storage::disk('public')->putFile('audios', new \Illuminate\Http\File($vocalsPath));
+            $audio->update([
                     'audio_voice' => $instrumentsSavedPath,
                     'audio_noise' => $vocalsSavedPath,
                     'status' => 1
@@ -83,10 +71,6 @@ class HandleAudioJob implements ShouldQueue
                 echo "Файл инструментов сохранен: " . $instrumentsSavedPath . "\n";
                 echo "Файл вокала сохранен: " . $vocalsSavedPath . "\n";
                 $this->getText();
-            } else {
-                echo 'Ошибка при разархивации файлов';
-                fclose($tmpFile); // Закрываем и удаляем временный файл
-            }
         }
         else {
             echo "Ошибка: " . $response->getStatusCode();

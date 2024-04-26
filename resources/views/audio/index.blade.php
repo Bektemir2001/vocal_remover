@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between">
                 <div class="header-title">
-                    <h4 class="card-title">New Customer</h4>
+                    <h4 class="card-title">Audios</h4>
                 </div>
                 <div class="card-header-toolbar d-flex align-items-center">
                     <a href="{{route('audios.create')}}" class="btn btn-outline-primary rounded-pill mt-2">add</a>
@@ -17,6 +17,7 @@
                         <tr class="text-secondary">
                             <th scope="col">Date</th>
                             <th scope="col">Audio</th>
+                            <th scope="col">YouTube</th>
                             <th scope="col">Status</th>
                             <th scope="col" class="text-right"></th>
                         </tr>
@@ -27,6 +28,9 @@
                                 <td>{{$audio->created_at}}</td>
                                 <td>
                                     {{$audio->origin_name}}
+                                </td>
+                                <td>
+                                    {{$audio->youtube_link}}
                                 </td>
                                 <td class="text-right"><p class="mb-0 text-success d-flex justify-content-start align-items-center">
                                         <small><svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="18" viewBox="0 0 24 24" fill="none">
